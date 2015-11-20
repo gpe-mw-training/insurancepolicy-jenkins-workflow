@@ -1,6 +1,7 @@
 stage 'Build'
 node {
-    echo "Groovy:  Build stage";
+    echo "Groovy:  Build stage:  ";
+    checkPort("gitlab", "22");
     git url: 'ssh://git@gitlab/acme-insurance/insurancepolicy.git', credentialsId: 'jenkins'
     def version = getBuildVersion("policyquote/pom.xml")
     env.BUILD_VERSION = version
@@ -38,6 +39,10 @@ timeout(time: 2, unit: 'DAYS') {
 stage 'Production'
 node {
     deployToBPMS("bpmsprod:8080")
+}
+
+def checkPort(server, port) {
+  sh "checkPort ${server} ${port}"
 }
 
 def prepareBuild(version, branch) {
