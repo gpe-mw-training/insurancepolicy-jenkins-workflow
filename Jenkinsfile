@@ -1,5 +1,6 @@
 stage 'Build'
 node {
+    echo "Groovy:  Build stage";
     git url: 'ssh://git@gitlab/acme-insurance/insurancepolicy.git', credentialsId: 'jenkins'
     def version = getBuildVersion("policyquote/pom.xml")
     env.BUILD_VERSION = version
