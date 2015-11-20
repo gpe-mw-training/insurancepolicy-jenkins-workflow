@@ -1,7 +1,7 @@
 stage 'Build'
 node {
     echo "Groovy:  Build stage:  ";
-    checkPort("gitla", "22");
+    checkPort("gitlab", "22");
     git url: 'ssh://git@gitlab/acme-insurance/insurancepolicy.git', credentialsId: 'jenkins'
     def version = getBuildVersion("policyquote/pom.xml")
     env.BUILD_VERSION = version
@@ -28,6 +28,7 @@ node {
 
 stage 'QA'
 node {
+    checkPort("bpmsqa", "8080");
     deployToBPMS("bpmsqa:8080")
 }
 
@@ -38,6 +39,7 @@ timeout(time: 2, unit: 'DAYS') {
 
 stage 'Production'
 node {
+    checkPort("bpmsprod", "8080");
     deployToBPMS("bpmsprod:8080")
 }
 
@@ -66,6 +68,7 @@ def integrationTests() {
 
 def publishToNexusAndCommitBranch(version, branch) {
     withEnv(["PATH+MAVEN=${tool 'maven-3.2.5'}/bin"]) {
+        checkPort("nexus", "8080");
         sh "mvn -f policyquote/pom.xml deploy -DaltDeploymentRepository=internal.nexus::default::http://nexus:8080/nexus/content/repositories/releases"
         def commit = "Build " + version
         sh "git add **/pom.xml && git commit -m \"${commit}\" && git push origin ${branch}"
