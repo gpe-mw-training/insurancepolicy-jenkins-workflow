@@ -55,7 +55,7 @@ def prepareBuild(version, branch) {
 }
 
 def build() {	
-    /withEnv(["PATH+MAVEN=${tool 'maven-3.2.5'}/bin"]) {
+    //withEnv(["PATH+MAVEN=${tool 'maven-3.2.5'}/bin"]) {
         sh "mvn -f policyquote/pom.xml clean package"
     //}
 }
@@ -67,12 +67,12 @@ def integrationTests() {
 }
 
 def publishToNexusAndCommitBranch(version, branch) {
-    withEnv(["PATH+MAVEN=${tool 'maven-3.2.5'}/bin"]) {
+    //withEnv(["PATH+MAVEN=${tool 'maven-3.2.5'}/bin"]) {
         checkPort("nexus", "8080");
         sh "mvn -f policyquote/pom.xml deploy -DaltDeploymentRepository=internal.nexus::default::http://nexus:8080/nexus/content/repositories/releases"
         def commit = "Build " + version
         sh "git add **/pom.xml && git commit -m \"${commit}\" && git push origin ${branch}"
-    }
+    //}
 }
 
 def deployToBPMS(server) {
