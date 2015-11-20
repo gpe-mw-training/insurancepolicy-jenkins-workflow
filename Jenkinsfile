@@ -1,6 +1,6 @@
 stage 'Build'
 node {
-    git url: 'ssh://git@gitlab/acme-insurance/policyquote.git', credentialsId: 'Jenkins'
+    git url: 'ssh://git@gitlab/acme-insurance/insurancepolicy.git', credentialsId: 'jenkins'
     def version = getBuildVersion("policyquote/pom.xml")
     env.BUILD_VERSION = version
     env.BUILD_GROUP_ID = getGroupIdFromPom("policyquote/pom.xml")
