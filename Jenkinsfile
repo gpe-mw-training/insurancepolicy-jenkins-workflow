@@ -49,21 +49,21 @@ def checkPort(server, port) {
 
 def prepareBuild(version, branch) {
     sh "git checkout -b ${branch}"
-    withEnv(["PATH+MAVEN=${tool 'maven-3.2.5'}/bin"]) {
+    //withEnv(["PATH+MAVEN=${tool 'maven-3.2.5'}/bin"]) {
         sh "mvn -f policyquote/pom.xml versions:set -DgenerateBackupPoms=false -DnewVersion=${version}"
-    }
+    //}
 }
 
 def build() {	
-    withEnv(["PATH+MAVEN=${tool 'maven-3.2.5'}/bin"]) {
+    /withEnv(["PATH+MAVEN=${tool 'maven-3.2.5'}/bin"]) {
         sh "mvn -f policyquote/pom.xml clean package"
-    }
+    //}
 }
 
 def integrationTests() {
-    withEnv(["PATH+MAVEN=${tool 'maven-3.2.5'}/bin"]) {	
+   // withEnv(["PATH+MAVEN=${tool 'maven-3.2.5'}/bin"]) {	
 	    sh "mvn -f policyquote/pom.xml verify"
-    }
+   // }
 }
 
 def publishToNexusAndCommitBranch(version, branch) {
