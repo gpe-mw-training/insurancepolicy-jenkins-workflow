@@ -44,7 +44,7 @@ node {
 }
 
 def checkPort(server, port) {
-  sh "checkPort ${server} ${port}"
+  sh "checkPort.sh ${server} ${port}"
 }
 
 def prepareBuild(version, branch) {
